@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../layout/compose-model-1658951433946.xml" value="0.30067567567567566" />
+        <entry key="../../../../layout/compose-model-1658953155278.xml" value="1.5" />
+        <entry key="../../../../layout/compose-model-1658955398764.xml" value="0.21114864864864866" />
+        <entry key="../../../../layout/compose-model-1658955914155.xml" value="0.8888888888888888" />
+        <entry key="../../../../layout/compose-model-1658955931853.xml" value="0.8888888888888888" />
+        <entry key="../../../../layout/compose-model-1658956192233.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1658956230228.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1658968608179.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1658969074270.xml" value="0.21114864864864866" />
+        <entry key="../../../../layout/compose-model-1658969704747.xml" value="0.21114864864864866" />
+        <entry key="../../../../layout/compose-model-1658969952067.xml" value="0.21114864864864866" />
+        <entry key="../../../../layout/compose-model-1658969999924.xml" value="0.33" />
+        <entry key="../../../../layout/compose-model-1658970742545.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1658970960909.xml" value="0.33" />
+        <entry key="../../../../layout/compose-model-1658970965399.xml" value="0.2512668918918919" />
+        <entry key="../../../../layout/compose-model-1658971788628.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1658972584172.xml" value="0.33" />
+        <entry key="../../../../layout/compose-model-1658972989432.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/transparent_image.xml" value="0.2365" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
