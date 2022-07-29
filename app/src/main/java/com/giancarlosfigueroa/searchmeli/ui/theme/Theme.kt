@@ -17,13 +17,13 @@ import androidx.core.view.ViewCompat
 
 private val DarkColorScheme = darkColorScheme(
     primary = YellowMeli,
-    secondary = PurpleGrey80,
+    secondary = BlueMeli,
     tertiary = Pink80,
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = YellowMeli,
-    secondary = PurpleGrey40,
+    secondary = BlueMeli,
     tertiary = Pink40,
 
 

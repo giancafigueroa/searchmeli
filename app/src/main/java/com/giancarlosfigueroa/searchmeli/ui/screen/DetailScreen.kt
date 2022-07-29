@@ -1,17 +1,19 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.giancarlosfigueroa.searchmeli.ui.screen
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,27 +25,49 @@ import com.giancarlosfigueroa.searchmeli.ui.navigation.AppScreens
 @Composable
 fun DetailScreen(navController: NavController) {
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.logomini),
-            contentDescription = "logo meli",
-            modifier = Modifier.size(200.dp, 200.dp)
-        )
-
-        Text(text = "Buscar productos, marcas y más ...")
-        Button(onClick = {
-        }) {
-            Text(text = "Buscar")
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text("Detalle") },
+                navigationIcon = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back Results"
+                        )
+                    }
+                }
+            )
+        },
+        content = { innerPadding ->
+            DetailProduct()
         }
-
-    }
+    )
+}
+@Composable
+fun ImageProductDetail(){
+    Image(
+        painter = painterResource(R.drawable.logomini),
+        contentDescription = "Image Product",
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp),
+        contentScale = ContentScale.Fit
+    )
 }
 
-
+@Composable
+fun DetailProduct(){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp)
+    ) {
+        Text(text = "Motorola")
+        ImageProductDetail()
+        Text(text = "$ 200000")
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
