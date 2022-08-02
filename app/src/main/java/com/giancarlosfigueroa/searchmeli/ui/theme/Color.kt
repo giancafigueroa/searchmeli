@@ -14,3 +14,5 @@ val Pink40 = Color(0xFF7D5260)
 val GrayBackground = Color(0xFFF1EAEA)
 val GrayLetter = Color(0xFF999696)
 val BlueMeli = Color(0xFF002F6D)
+val GreenMeli = Color(0xFF11930F)
+

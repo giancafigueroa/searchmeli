@@ -18,13 +18,14 @@ import androidx.core.view.ViewCompat
 private val DarkColorScheme = darkColorScheme(
     primary = YellowMeli,
     secondary = BlueMeli,
-    tertiary = Pink80,
+    tertiary = GreenMeli,
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = YellowMeli,
     secondary = BlueMeli,
-    tertiary = Pink40,
+    tertiary = GreenMeli,
+
 
 
     /* Other default colors to override

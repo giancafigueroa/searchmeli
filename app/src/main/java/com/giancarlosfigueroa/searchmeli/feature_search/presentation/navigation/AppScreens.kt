@@ -1,4 +1,4 @@
-package com.giancarlosfigueroa.searchmeli.ui.navigation
+package com.giancarlosfigueroa.searchmeli.feature_search.presentation.navigation
 
 sealed class AppScreens(val route:String) {
     object SplashScreen:AppScreens("splash_screen")

@@ -1,7 +1,5 @@
-package com.giancarlosfigueroa.searchmeli.ui.screen
+package com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen
 
-import android.graphics.Typeface
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,30 +14,29 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.giancarlosfigueroa.searchmeli.R
-import com.giancarlosfigueroa.searchmeli.ui.navigation.AppScreens
-import com.giancarlosfigueroa.searchmeli.ui.theme.BlueMeli
+import com.giancarlosfigueroa.searchmeli.feature_search.presentation.navigation.AppScreens
+import com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen.search.SearchEvent
+import com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen.search.SearchViewModel
 import com.giancarlosfigueroa.searchmeli.ui.theme.GrayBackground
 import com.giancarlosfigueroa.searchmeli.ui.theme.GrayLetter
-import com.giancarlosfigueroa.searchmeli.ui.theme.SearchmeliTheme
 
 @Composable
-fun SearchScreen(navController: NavController) {
-    var value by remember { mutableStateOf(TextFieldValue("")) }
-
+fun SearchScreen(
+    navController: NavController,
+    viewModel: SearchViewModel = hiltViewModel()
+) {
+    val state = viewModel.state.value
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -55,8 +52,8 @@ fun SearchScreen(navController: NavController) {
         )
 
         BasicTextField(
-            value = value,
-            onValueChange = { value = it },
+            value = state.searchValue,
+            onValueChange = { viewModel.onEvent(SearchEvent.EnteredSearch(it)) },
             singleLine = true,
             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Left),
             decorationBox = { innerTextField ->
@@ -64,11 +61,11 @@ fun SearchScreen(navController: NavController) {
                     Modifier
                         .size(300.dp, 50.dp)
                         .background(GrayBackground, RoundedCornerShape(percent = 6))
-                        .padding(16.dp),
+                        .padding(8.dp),
                     contentAlignment = Alignment.CenterStart
                 ) {
 
-                    if (value.text.isEmpty()) {
+                    if (state.searchValue.isEmpty()) {
                         Text(
                             "Buscar productos, marcas y más ...",
                             modifier = Modifier
@@ -94,7 +91,10 @@ fun SearchScreen(navController: NavController) {
         FilledTonalButton(
             modifier = Modifier.size(150.dp, 40.dp),
             shape = RoundedCornerShape(6.dp),
-            onClick = { navController.navigate(AppScreens.ResultsScreen.route) },
+            onClick = {
+                viewModel.onEvent(SearchEvent.Search)
+                navController.navigate(AppScreens.ResultsScreen.route)
+                      },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.secondary

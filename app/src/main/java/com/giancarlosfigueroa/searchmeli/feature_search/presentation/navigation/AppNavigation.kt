@@ -1,13 +1,13 @@
-package com.giancarlosfigueroa.searchmeli.ui.navigation
+package com.giancarlosfigueroa.searchmeli.feature_search.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.giancarlosfigueroa.searchmeli.ui.screen.DetailScreen
-import com.giancarlosfigueroa.searchmeli.ui.screen.ResultsScreen
-import com.giancarlosfigueroa.searchmeli.ui.screen.SearchScreen
-import com.giancarlosfigueroa.searchmeli.ui.screen.SplashScreen
+import com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen.DetailScreen
+import com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen.ResultsScreen
+import com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen.SearchScreen
+import com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen.SplashScreen
 
 @Composable
 fun AppNavigation(){
