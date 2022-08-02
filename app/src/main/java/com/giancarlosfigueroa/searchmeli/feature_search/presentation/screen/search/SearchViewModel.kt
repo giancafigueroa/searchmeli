@@ -17,7 +17,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val productUseCase:ProductUseCases
 ): ViewModel() {
-    private  val service=SearchService.create()
+
 
     private val _state = mutableStateOf(SearchState())
     val state: State<SearchState> = _state
@@ -31,15 +31,6 @@ class SearchViewModel @Inject constructor(
                     searchValue = event.value
                 )
             }
-            is SearchEvent.Search->{
-                GlobalScope.launch {
-                    val results=service.search(state.value.searchValue)
-                }
-
-
-            }
-
-
             else -> {}
         }
     }

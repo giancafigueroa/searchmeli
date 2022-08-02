@@ -2,12 +2,11 @@ package com.giancarlosfigueroa.searchmeli.feature_search.domain.use_case
 
 import com.giancarlosfigueroa.searchmeli.feature_search.domain.model.Product
 import com.giancarlosfigueroa.searchmeli.feature_search.domain.repository.ProductRepository
-import kotlinx.coroutines.flow.Flow
 
-class GetProducts(
-    private val repository:ProductRepository
+class SearchProducts(
+    private val repository: ProductRepository
 ) {
-    operator fun invoke():Flow<List<Product>>{
-        return  repository.getProducts()
+    suspend operator fun invoke(searchValue: String): List<Product> {
+        return repository.searchProducts(searchValue)
     }
 }

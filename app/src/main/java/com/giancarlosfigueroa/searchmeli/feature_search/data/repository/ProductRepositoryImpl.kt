@@ -1,18 +1,21 @@
 package com.giancarlosfigueroa.searchmeli.feature_search.data.repository
 
-import com.giancarlosfigueroa.searchmeli.feature_search.data.data_source.ProductDao
+
+import com.giancarlosfigueroa.searchmeli.feature_search.data.remote.SearchService
 import com.giancarlosfigueroa.searchmeli.feature_search.domain.model.Product
 import com.giancarlosfigueroa.searchmeli.feature_search.domain.repository.ProductRepository
-import kotlinx.coroutines.flow.Flow
 
 class ProductRepositoryImpl(
-    private val dao:ProductDao
+    private val searchService: SearchService
 ):ProductRepository {
-    override fun getProducts(): Flow<List<Product>> {
-        return dao.getProducts()
+    override suspend fun searchProducts(searchValue:String): List<Product> {
+        return searchService.search(searchValue)?.results ?: emptyList()
+
     }
 
-    override suspend fun getProductById(id: Int): Product? {
-       return dao.getProductById(id)
+    override suspend fun getProductById(id: String): Product? {
+        return searchService.searchById(id)
     }
+
+
 }

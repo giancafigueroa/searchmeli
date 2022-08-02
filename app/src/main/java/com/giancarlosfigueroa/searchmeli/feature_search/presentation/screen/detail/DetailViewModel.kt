@@ -1,10 +1,7 @@
-package com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen.results
+package com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen.detail
 
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,19 +12,19 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 @HiltViewModel
-class ResultsViewModel @Inject constructor(
+class DetailViewModel @Inject constructor(
     private val productUseCase:ProductUseCases,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
-    private val _resultsItems = mutableStateListOf<Product>()
-    val resultsItems: MutableList<Product> = _resultsItems
+    private val _product = mutableStateOf<Product?>(null)
+    val product: MutableState<Product?> = _product
     init {
-        savedStateHandle.get<String>("q")?.let { q ->
-            if(q != "") {
-                viewModelScope.launch {
-                    _resultsItems.addAll(productUseCase.searchProducts(q.trim()))
-                }
+        savedStateHandle.get<String>("id")?.let { id ->
+            viewModelScope.launch {
+                _product.value=productUseCase.getProductById(id)
             }
         }
     }

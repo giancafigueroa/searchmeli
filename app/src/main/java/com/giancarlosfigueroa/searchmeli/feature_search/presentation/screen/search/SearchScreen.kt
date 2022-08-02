@@ -36,14 +36,15 @@ fun SearchScreen(
     navController: NavController,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
+
     val state = viewModel.state.value
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-
         ) {
         Image(
             painter = painterResource(id = R.drawable.logomini),
@@ -64,7 +65,6 @@ fun SearchScreen(
                         .padding(8.dp),
                     contentAlignment = Alignment.CenterStart
                 ) {
-
                     if (state.searchValue.isEmpty()) {
                         Text(
                             "Buscar productos, marcas y más ...",
@@ -82,19 +82,18 @@ fun SearchScreen(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    navController.navigate(AppScreens.ResultsScreen.route)
-                },
+                    navController.navigate(AppScreens.ResultsScreen.route+"?q=${state.searchValue}")
 
-                )
+                },
+            )
         )
         Spacer(modifier = Modifier.size(20.dp))
         FilledTonalButton(
             modifier = Modifier.size(150.dp, 40.dp),
             shape = RoundedCornerShape(6.dp),
             onClick = {
-                viewModel.onEvent(SearchEvent.Search)
-                navController.navigate(AppScreens.ResultsScreen.route)
-                      },
+                navController.navigate(AppScreens.ResultsScreen.route+"?q=${state.searchValue}")
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.secondary
