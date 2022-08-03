@@ -14,6 +14,11 @@ import javax.inject.Inject
 
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import com.giancarlosfigueroa.searchmeli.feature_search.domain.exceptions.InvalidId
+import com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen.results.ResultsViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val productUseCase:ProductUseCases,
@@ -21,11 +26,28 @@ class DetailViewModel @Inject constructor(
 ): ViewModel() {
     private val _product = mutableStateOf<Product?>(null)
     val product: MutableState<Product?> = _product
+
+
+    private val _eventFlow = MutableSharedFlow<DetailViewModel.UiEventDetail>()
+    val eventFlow = _eventFlow.asSharedFlow()
+
     init {
         savedStateHandle.get<String>("id")?.let { id ->
             viewModelScope.launch {
-                _product.value=productUseCase.getProductById(id)
+                try {
+                    _product.value=productUseCase.getProductById(id)
+
+                }catch (e:InvalidId){
+                    _eventFlow.emit(
+                        UiEventDetail.ShowToast(
+                            message = "El valor no puede ser vacio"
+                        )
+                    )
+                }
             }
         }
+    }
+    sealed class UiEventDetail {
+        data class ShowToast(val message: String) : DetailViewModel.UiEventDetail()
     }
 }

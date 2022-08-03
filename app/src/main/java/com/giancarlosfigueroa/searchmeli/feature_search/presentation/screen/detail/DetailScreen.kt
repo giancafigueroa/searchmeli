@@ -3,6 +3,7 @@
 package com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen
 
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -11,12 +12,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +34,8 @@ import com.giancarlosfigueroa.searchmeli.feature_search.domain.model.Product
 import com.giancarlosfigueroa.searchmeli.feature_search.presentation.components.LoadingShimmerEffect
 import com.giancarlosfigueroa.searchmeli.feature_search.presentation.components.LoadingShimmerEffectDetail
 import com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen.detail.DetailViewModel
+import com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen.results.ResultsViewModel
+import kotlinx.coroutines.flow.collectLatest
 import java.text.NumberFormat
 import java.util.*
 
@@ -41,6 +46,21 @@ fun DetailScreen(
     viewModel: DetailViewModel = hiltViewModel()
 ) {
     val product = viewModel.product.value
+    val mContext = LocalContext.current
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is DetailViewModel.UiEventDetail.ShowToast
+                -> {
+
+                    Toast.makeText(mContext, event.message, Toast.LENGTH_LONG).show()
+                    navController.navigateUp()
+
+                }
+            }
+        }
+    }
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(

@@ -42,14 +42,12 @@ fun ResultsScreen(
     viewModel: ResultsViewModel = hiltViewModel()
 ) {
     val itemsResults = viewModel.resultsItems
-    val scope = rememberCoroutineScope()
     val mContext = LocalContext.current
-    //val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
-                is ResultsViewModel.UiEvent.ShowSnackbar
+                is ResultsViewModel.UiEvent.ShowToast
                 -> {
 
                     Toast.makeText(mContext, event.message, Toast.LENGTH_LONG).show()
