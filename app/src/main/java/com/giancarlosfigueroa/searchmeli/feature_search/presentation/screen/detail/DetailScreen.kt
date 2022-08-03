@@ -28,6 +28,8 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.giancarlosfigueroa.searchmeli.feature_search.domain.model.Attributes
 import com.giancarlosfigueroa.searchmeli.feature_search.domain.model.Product
+import com.giancarlosfigueroa.searchmeli.feature_search.presentation.components.LoadingShimmerEffect
+import com.giancarlosfigueroa.searchmeli.feature_search.presentation.components.LoadingShimmerEffectDetail
 import com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen.detail.DetailViewModel
 import java.text.NumberFormat
 import java.util.*
@@ -64,6 +66,8 @@ fun DetailScreen(
             ) {
                 if (product != null) {
                     DetailProduct(product)
+                }else{
+                    LoadingShimmerEffectDetail()
                 }
             }
         }

@@ -2,17 +2,19 @@
 
 package com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen
 
-import android.provider.ContactsContract.CommonDataKinds.StructuredPostal.COUNTRY
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,8 +24,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.giancarlosfigueroa.searchmeli.feature_search.domain.model.Product
+import com.giancarlosfigueroa.searchmeli.feature_search.presentation.components.LoadingShimmerEffect
 import com.giancarlosfigueroa.searchmeli.feature_search.presentation.navigation.AppScreens
 import com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen.results.ResultsViewModel
+
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonNull.content
 import java.text.NumberFormat
 import java.util.*
 
@@ -35,6 +42,23 @@ fun ResultsScreen(
     viewModel: ResultsViewModel = hiltViewModel()
 ) {
     val itemsResults = viewModel.resultsItems
+    val scope = rememberCoroutineScope()
+    val mContext = LocalContext.current
+    //val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is ResultsViewModel.UiEvent.ShowSnackbar
+                -> {
+
+                    Toast.makeText(mContext, event.message, Toast.LENGTH_LONG).show()
+                    navController.navigateUp()
+
+                }
+            }
+        }
+    }
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -54,15 +78,24 @@ fun ResultsScreen(
                 contentPadding = innerPadding,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                itemsResults.forEach {
-                    item() {
-                        ItemCard(navController, it)
+                if (itemsResults.isNotEmpty()) {
+                    itemsResults.forEach {
+                        item() {
+                            ItemCard(navController, it)
+                        }
+                    }
+                } else {
+
+                    repeat(8) {
+                        item() { LoadingShimmerEffect() }
                     }
                 }
-
             }
+
+
         }
     )
+
 }
 
 
@@ -77,10 +110,12 @@ fun ImageProductList(url: String) {
 }
 
 @Composable
-fun DescriptionProductList(name: String, price: Int, location: String?,
-                           freeShipping: Boolean,priceOriginal:Int?) {
+fun DescriptionProductList(
+    name: String, price: Int, location: String?,
+    freeShipping: Boolean, priceOriginal: Int?
+) {
 
-    val priceCurrency=NumberFormat.getCurrencyInstance(Locale("es", "CO")).format(price)
+    val priceCurrency = NumberFormat.getCurrencyInstance(Locale("es", "CO")).format(price)
     Column() {
         Text(text = name, fontSize = 16.sp)
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -90,9 +125,9 @@ fun DescriptionProductList(name: String, price: Int, location: String?,
                 fontWeight = FontWeight.Medium
             )
             Spacer(modifier = Modifier.size(8.dp))
-            if(priceOriginal!=null) {
+            if (priceOriginal != null) {
                 Text(
-                    "${(100*price)/priceOriginal}% OFF",
+                    "${(100 * price) / priceOriginal}% OFF",
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Light,
                     color = MaterialTheme.colorScheme.tertiary
@@ -127,7 +162,7 @@ fun ItemCard(navController: NavController, product: Product) {
         .fillMaxWidth()
         .padding(10.dp)
         .clickable {
-            navController.navigate(AppScreens.DetailScreen.route+"?id=${product.id}")
+            navController.navigate(AppScreens.DetailScreen.route + "?id=${product.id}")
         }
     ) {
         ImageProductList(product.thumbnail)

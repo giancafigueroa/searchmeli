@@ -1,5 +1,6 @@
 package com.giancarlosfigueroa.searchmeli.feature_search.presentation.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -7,13 +8,10 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -21,6 +19,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -82,17 +81,33 @@ fun SearchScreen(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    navController.navigate(AppScreens.ResultsScreen.route+"?q=${state.searchValue}")
-
+                    if(state.searchValue.isNotBlank()) {
+                        navController.navigate(AppScreens.ResultsScreen.route + "?q=${state.searchValue}")
+                    }else{
+                        viewModel.onEvent(SearchEvent.PutError("No puede ser vacio"))
+                    }
                 },
             )
         )
+        if(state.error.isNotEmpty()){
+            Text(
+                modifier=Modifier
+                    .size(300.dp, 50.dp),
+                fontSize=12.sp,
+                text = state.error,
+                color = Color.Red,
+                textAlign = TextAlign.Left)
+        }
         Spacer(modifier = Modifier.size(20.dp))
         FilledTonalButton(
             modifier = Modifier.size(150.dp, 40.dp),
             shape = RoundedCornerShape(6.dp),
             onClick = {
-                navController.navigate(AppScreens.ResultsScreen.route+"?q=${state.searchValue}")
+                if(state.searchValue.isNotBlank()) {
+                    navController.navigate(AppScreens.ResultsScreen.route + "?q=${state.searchValue}")
+                }else{
+                    viewModel.onEvent(SearchEvent.PutError(viewModel.REQUIRED_ERROR))
+                }
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
