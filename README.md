@@ -2,11 +2,14 @@ Desing in figma
 
 ![plot](./screenshot/desing_figma.png)
 
-Tools 
 
-- Kotlin
+Achitecture
+
 - Clean Architecture
 - MVVM
+
+Tools 
+
 - Dagger Hilt
 - Compose
 - Ktor
