@@ -60,6 +60,7 @@ class SearchScreenTest{
         (this.activity.findViewById<ViewGroup>(android.R.id.content)?.getChildAt(0) as? ComposeView)?.setContent(content)
             ?: this.setContent(content)
     }
+    //Test when valueSearch is blank
     @Test
     fun clickRequired(){
         composeRule.onNodeWithText("No puede ser vacio").assertDoesNotExist()
